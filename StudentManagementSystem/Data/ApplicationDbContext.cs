@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StudentManagementSystem.Areas.Admin.Models;
 using StudentManagementSystem.Models;
 
 namespace StudentManagementSystem.Data
@@ -11,5 +12,6 @@ namespace StudentManagementSystem.Data
             
         }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<StudentClass> studentClasses { get; set; }
     }
 }

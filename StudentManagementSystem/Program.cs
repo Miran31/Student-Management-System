@@ -3,6 +3,7 @@ using StudentManagementSystem.Data;
 using Microsoft.AspNetCore.Identity;
 using StudentManagementSystem.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using StudentManagementSystem.Data.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = $"/Identity/Account/Login";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+    options.LogoutPath = $"/Identity/Account/Logout";
+}
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,13 +34,25 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.MapRazorPages();
 app.UseAuthorization();
 
+
+
+SeedDatabase();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=User}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using(var scope = app.Services.CreateScope())
+    {
+        var scopeini = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        scopeini.Initialize();
+    }
+}

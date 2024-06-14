@@ -25,6 +25,7 @@ using StudentManagementSystem.Utility;
 
 namespace StudentManagementSystem.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = SD.Role_admin)]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -113,11 +114,11 @@ namespace StudentManagementSystem.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_student)).GetAwaiter().GetResult();
-            }
+            //if (!_roleManager.RoleExistsAsync(SD.Role_admin).GetAwaiter().GetResult())
+            //{
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_admin)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_student)).GetAwaiter().GetResult();
+            //}
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(u => new SelectListItem

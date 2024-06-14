@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using StudentManagementSystem.Models;
 using System.Diagnostics;
 
-namespace StudentManagementSystem.Controllers
+namespace StudentManagementSystem.Areas.User.Controllers
 {
+    [Area("User")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
