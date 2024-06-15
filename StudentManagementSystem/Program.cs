@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using StudentManagementSystem.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using StudentManagementSystem.Data.DbInitializer;
+using StudentManagementSystem.Data.Repository.IRepository;
+using StudentManagementSystem.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStor
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddScoped<IStudentclassRepository, StudentclassRepository>();
 
 builder.Services.ConfigureApplicationCookie(options => {
     options.LoginPath = $"/Identity/Account/Login";

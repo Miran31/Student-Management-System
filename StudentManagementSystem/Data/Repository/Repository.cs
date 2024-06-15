@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Data;
-using StudentManagementSystem.Repository.IRepository;
+using StudentManagementSystem.Data.Repository.IRepository;
 using System.Linq.Expressions;
 
-namespace StudentManagementSystem.Repository
+namespace StudentManagementSystem.Data.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
@@ -12,7 +12,7 @@ namespace StudentManagementSystem.Repository
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            this.dbset = _db.Set<T>();
+            dbset = _db.Set<T>();
 
         }
         public void Add(T entity)
@@ -22,7 +22,7 @@ namespace StudentManagementSystem.Repository
 
         public T Get(Expression<Func<T, bool>> filter)
         {
-            IQueryable<T> query =dbset.Where(filter);
+            IQueryable<T> query = dbset.Where(filter);
             return query.FirstOrDefault();
         }
 

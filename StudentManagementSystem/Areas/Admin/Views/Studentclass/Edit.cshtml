@@ -1,6 +1,6 @@
 ﻿@model StudentClass
 @{
-    ViewData["Title"] = "Create Class";
+    ViewData["Title"] = "Edit Class";
 }
 
 <div class="container" style="height:78vh; width:auto">
@@ -9,26 +9,27 @@
             <div class="card bg-primary text-white rounded-3">
                 <div class="card-body text-center">
                     <div>
-                        <h2 class="text-uppercase my-3 mb-5">Create Class</h2>
+                        <h2 class="text-uppercase my-3 mb-5">Edit Class</h2>
                         <form method="post">
+                            <input asp-for="StudentClassId" hidden/>
                             <div class="form-outline form-floating text-primary mb-3">
-                                <input asp-for="Session" id="sessionInput" type="text" class="form-control" placeholder="Session"/>
+                                <input asp-for="Session" id="sessionInput" type="text" class="form-control" placeholder="Session" />
                                 <label asp-for="Session" for="sessionInput" class="form-label">Session</label>
                                 <span asp-validation-for="Session" class="text-danger"></span>
                             </div>
                             <div class=" form-floating text-primary mb-3">
-                                <input asp-for="Year" id="YearInput" type="number" class="form-control" placeholder="Semester"/>
+                                <input asp-for="Year" id="YearInput" type="number" class="form-control" placeholder="Semester" />
                                 <label asp-for="Year" for="YearInput" class="form-label">Year</label>
                                 <span asp-validation-for="Year" class="text-danger"></span>
                             </div>
                             <div class=" form-floating text-primary mb-3">
-                                <input asp-for="Semester" id="SemesterInput" type="number" class="form-control" placeholder="Semester"/>
+                                <input asp-for="Semester" id="SemesterInput" type="number" class="form-control" placeholder="Semester" />
                                 <label asp-for="Semester" for="SemesterInput" class="form-label">Semester</label>
                                 <span asp-validation-for="Semester" class="text-danger"></span>
                             </div>
-                            
+
                             <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-lg btn-secondary">Create</button>
+                                <button type="submit" class="btn btn-lg btn-secondary">Update</button>
                             </div>
                         </form>
                     </div>
@@ -39,7 +40,7 @@
 </div>
 
 
-@section Scripts{
+@section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />
     }

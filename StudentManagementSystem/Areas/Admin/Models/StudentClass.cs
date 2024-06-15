@@ -4,12 +4,16 @@ namespace StudentManagementSystem.Areas.Admin.Models
 {
     public class StudentClass
     {
-        public int StudentClassId { get; set; }
+        [Key] public int StudentClassId { get; set; }
         [Required]
+        [MaxLength(10)]
         public string Session {  get; set; }
         [Required]
-        public string Year { get; set; }
+        [Range(1,10)]
+        public int Year { get; set; }
         [Required]
-        public string Semester { get; set; }
+        [Range(1,2)]
+
+        public int Semester { get; set; }
     }
 }
