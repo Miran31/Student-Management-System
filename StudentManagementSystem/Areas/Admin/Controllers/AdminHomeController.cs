@@ -3,7 +3,7 @@
 namespace StudentManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminController : Controller
+    public class AdminHomeController : Controller
     {
         public IActionResult Index()
         {

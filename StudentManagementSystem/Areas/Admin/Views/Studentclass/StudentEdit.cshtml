@@ -1,0 +1,103 @@
+﻿@model ApplicationUser
+@{
+    ViewData["Title"] = "Update Student Information";
+}
+
+<div class="container" style="height:78vh; width:auto">
+    <div class="row justify-content-center align-items-center" style="height:78vh; width:auto">
+        <div class="col-10">
+            <div class="card bg-primary text-white rounded-3 mb-4">
+                <div class="card-body text-center">
+                    <div>
+                        <h2 class="text-uppercase my-3 mb-5">Create Class</h2>
+                        <form method="post" mb-4>
+                            <h3 class="text-start">Personal Details</h3>
+
+                            <div class="card-body border-2 border-white ">
+                                <div class="form-outline form-floating text-primary mb-3">
+                                    <input asp-for="Student_Name" type="text" class="form-control rounded-2" placeholder="Full Name" />
+                                    <label asp-for="Student_Name" class="form-label">Full Name</label>
+                                    <span asp-validation-for="Student_Name" class="text-danger"></span>
+                                </div>
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="Student_Email" id="email1" type="email" class="form-control" placeholder="Email" />
+                                    <label asp-for="Student_Email" class="form-label">Email</label>
+                                    <span asp-validation-for="Student_Email" class="text-danger"></span>
+                                </div>
+                                <div>
+                                    class
+                                </div>
+                                <div class=" form-floating text-primary mb-3">
+
+                                    <select asp-for="Gender" class="form-control" placeholder="Gender">
+                                        <option selected disabled>---Select Gender---</option>>
+                                        <option>Male</option>>
+                                        <option>Female</option>>
+                                    </select>
+                                    <label asp-for="Gender" class="form-label">Gender</label>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="Students_Id" type="text" class="form-control" placeholder="Student ID" />
+                                    <label asp-for="Students_Id" class="form-label">Student ID</label>
+                                    <span asp-validation-for="Students_Id" class="text-danger"></span>
+                                </div>
+                                <div>
+                                    img
+                                </div>
+
+                            </div>
+
+
+                            <h3 class="text-start">Parents/Guardian's Details</h3>
+
+                            <div class="card-body border-2 border-white ">
+
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="FathersName" type="text" class="form-control" placeholder="Father's Name" />
+                                    <label asp-for="FathersName" class="form-label">Father's Name</label>
+                                    <span asp-validation-for="FathersName" class="text-danger"></span>
+                                </div>
+
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="MothersName" type="text" class="form-control" placeholder="Mother's Name" />
+                                    <label asp-for="MothersName" class="form-label">Mother's Name</label>
+                                    <span asp-validation-for="MothersName" class="text-danger"></span>
+                                </div>
+
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="Phone" type="text" class="form-control" placeholder="Contact Number" />
+                                    <label asp-for="Phone" class="form-label">Contact Number</label>
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+
+                                <div class=" form-floating text-primary mb-3">
+                                    <input asp-for="GuardianAddress" type="text" class="form-control" placeholder="Address" />
+                                    <label asp-for="GuardianAddress" class="form-label">Address</label>
+                                    <span asp-validation-for="GuardianAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-lg btn-secondary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{
+        <script>
+            document.getElementById('email1').addEventListener('input', function () {
+                document.getElementById('email2').value = this.value;
+            });
+        </script>
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -42,19 +42,7 @@
                                     <a class="nav-link" asp-area="Admin" asp-controller="Studentclass" asp-action="Index">Class</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Student</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Notice</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Pages</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Reports</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Search</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Studentclass" asp-action="StudentIndex">Student</a>
                                 </li>
                             }
                             @if (User.IsInRole(SD.Role_student))

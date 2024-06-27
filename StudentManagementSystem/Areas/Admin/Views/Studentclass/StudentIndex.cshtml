@@ -1,0 +1,49 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Student List";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Class List</h3>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn btn-outline-primary rounded-4" asp-action="StudentCreate" asp-area="Admin" asp-controller="Studentclass"><i class="fa-solid fa-circle-plus"></i> Create New Student</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped text-center">
+                <tr>
+                    <th>Student Id</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Father's Name</th>
+                    <th>Guardian's Phone Number</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var i in Model.OrderBy(u=>u.Students_Id))
+                {
+                    <tr>
+                        <td>@i.Students_Id</td>
+                        <td>@i.Student_Name</td>
+                        <td></td>
+                        <td>@i.FathersName</td>
+                        <td>@i.Phone</td>
+                        <td>@i.GuardianAddress</td>
+                        <td>
+                            <a asp-action="StudentEdit" asp-area="Admin" asp-controller="Studentclass" asp-route-id="@i.Id" class="btn btn-success">Edit</a>
+                            <form method="post" class="d-inline-flex">
+                                <button asp-area="Admin" asp-action="StudentDelete" asp-controller="Studentclass" asp-route-id="@i.Id" class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
