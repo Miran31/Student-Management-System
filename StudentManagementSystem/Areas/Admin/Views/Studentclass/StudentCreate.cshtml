@@ -10,7 +10,7 @@
                 <div class="card-body text-center">
                     <div>
                         <h2 class="text-uppercase my-3 mb-5">Create Class</h2>
-                        <form method="post" mb-4>
+                        <form method="post" enctype="multipart/form-data">
                             <h3 class="text-start">Personal Details</h3>
                             
                             <div class="card-body border-2 border-white ">
@@ -42,8 +42,10 @@
                                     <label asp-for="Students_Id" class="form-label">Student ID</label>
                                     <span asp-validation-for="Students_Id" class="text-danger"></span>
                                 </div>
-                                <div>
-                                    img
+                                <div class=" form-floating text-primary mb-3">
+                                    <input name="file" asp-for="ImgUrl" type="file" class="form-control" placeholder="Image" />
+                                    <label asp-for="ImgUrl" class="form-label">Image</label>
+                                    <span asp-validation-for="ImgUrl" class="text-danger"></span>
                                 </div>
 
                             </div>

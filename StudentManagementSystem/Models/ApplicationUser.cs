@@ -13,16 +13,16 @@ namespace StudentManagementSystem.Models
         public string? City { get; set; }
         public string? Phone { get; set; }
         public string? Students_Id { get; set; }
-        [Required]
+
         public string? Student_Name { get; set; }
-        [Required]
+
         public string Student_Email { get; set; }
         public string? Gender { get; set; }
         public string? ImgUrl { get; set; }
         public string? DOB { get; set; }
-        [Required]
+
         public string? FathersName { get; set; }
-        [Required]
+
         public string? MothersName { get; set; }
         public string? Contact_Number { get; set; }
         public string? GuardianAddress { get; set; }

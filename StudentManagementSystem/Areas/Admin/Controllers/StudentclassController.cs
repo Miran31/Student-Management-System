@@ -13,19 +13,21 @@ using StudentManagementSystem.Utility;
 namespace StudentManagementSystem.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_admin)]
+    //[Authorize(Roles = SD.Role_admin)]
     public class StudentclassController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly IStudentclassRepository _studentclassReposiroty;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IApplicationUserRepository _applicationUserReposiroty;
-        public StudentclassController(IStudentclassRepository studentclassRepository, UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserReposiroty, ApplicationDbContext applicationDbContext)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public StudentclassController(IStudentclassRepository studentclassRepository, UserManager<ApplicationUser> userManager, IApplicationUserRepository applicationUserReposiroty, ApplicationDbContext applicationDbContext, IWebHostEnvironment webHostEnvironment)
         {
             _studentclassReposiroty = studentclassRepository;
             _userManager = userManager;
             _applicationUserReposiroty = applicationUserReposiroty;
             _db = applicationDbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index() {
             List<StudentClass> studentClasses = _studentclassReposiroty.GetAll().ToList();
@@ -87,34 +89,57 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
 
         //studennt controller
 
-        public IActionResult StudentIndex()
+        public async Task<IActionResult> StudentIndexAsync()
         {
             List<ApplicationUser> Students=_applicationUserReposiroty.GetAll().ToList();
-            return View(Students);
+            List<ApplicationUser> users = new List<ApplicationUser>();
+            foreach(var i in Students)
+            {
+                var roles = await _userManager.GetRolesAsync(i);
+                if (roles.Contains(SD.Role_student))
+                {
+                    users.Add(i);
+                }
+            }
+            return View(users);
         }
         public IActionResult StudentCreate()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> StudentCreate(ApplicationUser applicationuser)
+        public async Task<IActionResult> StudentCreate(ApplicationUser applicationuser,IFormFile ? file)
         {
+            
             if (ModelState.IsValid)
             {
+                string fileName="";
+                var rootPath = _webHostEnvironment.WebRootPath;
+                var studentPath = Path.Combine(rootPath + @"\Images\Student\");
+                if (file != null)
+                {
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    using (var fileStream = new FileStream(Path.Combine(studentPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                }
                 var user = new ApplicationUser
                 {
-                    Email=applicationuser.Student_Email,
-                    UserName= applicationuser.Student_Email,
-                    Student_Name= applicationuser.Student_Name,
-                    Student_Email= applicationuser.Student_Email,
-                    Gender= applicationuser.Gender,
-                    Students_Id= applicationuser.Students_Id,
-                    FathersName= applicationuser.FathersName,
-                    MothersName= applicationuser.MothersName,
-                    Phone= applicationuser.Phone,
-                    GuardianAddress= applicationuser.GuardianAddress,
-                    LoginEmail= applicationuser.Student_Email,
-                    LoginPassword= applicationuser.LoginPassword,
+                    Email = applicationuser.Student_Email,
+                    UserName = applicationuser.Student_Email,
+                    Student_Name = applicationuser.Student_Name,
+                    Student_Email = applicationuser.Student_Email,
+                    Gender = applicationuser.Gender,
+                    Students_Id = applicationuser.Students_Id,
+                    FathersName = applicationuser.FathersName,
+                    MothersName = applicationuser.MothersName,
+                    Phone = applicationuser.Phone,
+                    GuardianAddress = applicationuser.GuardianAddress,
+                    LoginEmail = applicationuser.Student_Email,
+                    LoginPassword = applicationuser.LoginPassword,
+                    ImgUrl = file!=null?@"\Images\Student\" + fileName:null
                 };
                 var result = _userManager.CreateAsync(user, applicationuser.LoginPassword).GetAwaiter().GetResult();
                 if(result.Succeeded)
@@ -132,7 +157,7 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> StudentEdit(ApplicationUser applicationUser)
+        public async Task<IActionResult> StudentEdit(ApplicationUser applicationUser,IFormFile? file)
         {
             if(applicationUser == null)
             {
@@ -143,6 +168,29 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                 try
                 {
                     var studentFromDb = _applicationUserReposiroty.Get(u=>u.Id== applicationUser.Id);
+                    string fileName = "";
+                    string oldImgPath;
+                    var rootPath = _webHostEnvironment.WebRootPath;
+                    var studentPath = Path.Combine(rootPath + @"\Images\Student\");
+                    if (file != null)
+                    {
+                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        if (!string.IsNullOrEmpty(studentFromDb.ImgUrl))
+                        {
+                            oldImgPath = Path.Combine(rootPath + studentFromDb.ImgUrl);
+                            if (System.IO.File.Exists(oldImgPath))
+                            {
+                                System.IO.File.Delete(oldImgPath);
+                            }
+                        }
+                        
+                        using (var fileStream = new FileStream(Path.Combine(studentPath, fileName), FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+
+                    }
+
                     if(studentFromDb== null)
                     {
                         return NotFound();
@@ -157,6 +205,7 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                     studentFromDb.MothersName = applicationUser.MothersName;
                     studentFromDb.Phone = applicationUser.Phone;
                     studentFromDb.GuardianAddress = applicationUser.GuardianAddress;
+                    studentFromDb.ImgUrl = file != null ? @"\Images\Student\" + fileName : studentFromDb.ImgUrl;
                     _applicationUserReposiroty.Update(studentFromDb);
                     _applicationUserReposiroty.SaveAsync();
                     return RedirectToAction("StudentIndex");
@@ -183,6 +232,16 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
             if(studenttobeDeleted == null)
             {
                 return NotFound();
+            }
+            var rootPath = _webHostEnvironment.WebRootPath;
+            var studentPath = Path.Combine(rootPath + @"\Images\Student\");
+            if(!string.IsNullOrEmpty(studenttobeDeleted.ImgUrl))
+            {
+                var oldImgPath = Path.Combine(rootPath + studenttobeDeleted.ImgUrl);
+                if (System.IO.File.Exists(oldImgPath))
+                {
+                    System.IO.File.Delete(oldImgPath);
+                }
             }
             _applicationUserReposiroty.Remove(studenttobeDeleted);
             _applicationUserReposiroty.SaveAsync();
