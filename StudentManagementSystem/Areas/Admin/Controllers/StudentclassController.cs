@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using StudentManagementSystem.Areas.Admin.Models;
@@ -8,6 +9,7 @@ using StudentManagementSystem.Data;
 using StudentManagementSystem.Data.Repository.IRepository;
 using StudentManagementSystem.Migrations;
 using StudentManagementSystem.Models;
+using StudentManagementSystem.Models.Viewmodel;
 using StudentManagementSystem.Utility;
 
 namespace StudentManagementSystem.Areas.Admin.Controllers
@@ -91,10 +93,21 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> StudentIndexAsync()
         {
-            List<ApplicationUser> Students=_applicationUserReposiroty.GetAll().ToList();
+            List<ApplicationUser> Students=_applicationUserReposiroty.GetAll(includeProterty:"StudentClass").ToList();
             List<ApplicationUser> users = new List<ApplicationUser>();
+            List<StudentClass> studentClasses = _studentclassReposiroty.GetAll().ToList();
             foreach(var i in Students)
             {
+                //foreach(var classes in studentClasses)
+                //{
+                //    if(classes.StudentClassId == i.StudentClassId)
+                //    {
+                //        string classssssss = $"{classes.Year} - {classes.Semester}";
+                //        //users.Add(classssssss);
+                //        //Console.WriteLine(classssssss);
+                        
+                //    }
+                //}
                 var roles = await _userManager.GetRolesAsync(i);
                 if (roles.Contains(SD.Role_student))
                 {
@@ -105,6 +118,12 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult StudentCreate()
         {
+            var studentClass = _studentclassReposiroty.GetAll().Select(u => new SelectListItem
+            {
+                Value = u.StudentClassId.ToString(), 
+                Text = $"{u.Year} - {u.Semester}"
+            }).ToList();
+            ViewBag.Studentcls = studentClass;
             return View();
         }
         [HttpPost]
@@ -139,6 +158,7 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                     GuardianAddress = applicationuser.GuardianAddress,
                     LoginEmail = applicationuser.Student_Email,
                     LoginPassword = applicationuser.LoginPassword,
+                    StudentClassId = applicationuser.StudentClassId,
                     ImgUrl = file!=null?@"\Images\Student\" + fileName:null
                 };
                 var result = _userManager.CreateAsync(user, applicationuser.LoginPassword).GetAwaiter().GetResult();
@@ -152,22 +172,29 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
         }
         public IActionResult StudentEdit(string? id)
         {
-            ApplicationUser applicationUser = _applicationUserReposiroty.Get(u => u.Id == id);
-            return View(applicationUser);
+            var studentClass = _studentclassReposiroty.GetAll().Select(u => new SelectListItem
+            {
+                Value = u.StudentClassId.ToString(),
+                Text = $"{u.Year} - {u.Semester}"
+            }).ToList();
+
+            ApplicationUser applicationUsers = _applicationUserReposiroty.Get(u => u.Id == id);
+            StudentVM studentVM = new()
+            {
+                classList = studentClass,
+                applicationUser  = applicationUsers,
+            };
+            return View(studentVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> StudentEdit(ApplicationUser applicationUser,IFormFile? file)
+        public async Task<IActionResult> StudentEdit(StudentVM studentVm,IFormFile? file)
         {
-            if(applicationUser == null)
-            {
-                return NotFound();
-            }
             if(ModelState.IsValid)
             {
                 try
                 {
-                    var studentFromDb = _applicationUserReposiroty.Get(u=>u.Id== applicationUser.Id);
+                    var studentFromDb = _applicationUserReposiroty.Get(u=>u.Id == studentVm.applicationUser.Id);
                     string fileName = "";
                     string oldImgPath;
                     var rootPath = _webHostEnvironment.WebRootPath;
@@ -195,16 +222,17 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                     {
                         return NotFound();
                     }
-                    studentFromDb.Email = applicationUser.Student_Email;
-                    studentFromDb.UserName = applicationUser.Student_Email;
-                    studentFromDb.Student_Name = applicationUser.Student_Name;
-                    studentFromDb.Student_Email = applicationUser.Student_Email;
-                    studentFromDb.Gender = applicationUser.Gender;
-                    studentFromDb.Students_Id = applicationUser.Students_Id;
-                    studentFromDb.FathersName = applicationUser.FathersName;
-                    studentFromDb.MothersName = applicationUser.MothersName;
-                    studentFromDb.Phone = applicationUser.Phone;
-                    studentFromDb.GuardianAddress = applicationUser.GuardianAddress;
+                    studentFromDb.Email = studentVm.applicationUser.Student_Email;
+                    studentFromDb.UserName = studentVm.applicationUser.Student_Email;
+                    studentFromDb.Student_Name = studentVm.applicationUser.Student_Name;
+                    studentFromDb.Student_Email = studentVm.applicationUser.Student_Email;
+                    studentFromDb.Gender = studentVm.applicationUser.Gender;
+                    studentFromDb.Students_Id = studentVm.applicationUser.Students_Id;
+                    studentFromDb.FathersName = studentVm.applicationUser.FathersName;
+                    studentFromDb.MothersName = studentVm.applicationUser.MothersName;
+                    studentFromDb.Phone = studentVm.applicationUser.Phone;
+                    studentFromDb.GuardianAddress = studentVm.applicationUser.GuardianAddress;
+                    studentFromDb.StudentClassId = studentVm.applicationUser.StudentClassId;
                     studentFromDb.ImgUrl = file != null ? @"\Images\Student\" + fileName : studentFromDb.ImgUrl;
                     _applicationUserReposiroty.Update(studentFromDb);
                     _applicationUserReposiroty.SaveAsync();
@@ -212,7 +240,7 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                 }
                 catch(DbUpdateConcurrencyException)
                 {
-                    if (!_applicationUserReposiroty.Exists(applicationUser.Id))
+                    if (!_applicationUserReposiroty.Exists(studentVm.applicationUser.Id))
                     {
                         return NotFound();
                     }
@@ -222,7 +250,7 @@ namespace StudentManagementSystem.Areas.Admin.Controllers
                     }
                 }
             }
-            return View(applicationUser);
+            return View(studentVm);
             
         }
         [HttpPost]

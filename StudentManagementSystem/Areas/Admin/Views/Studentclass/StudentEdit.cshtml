@@ -1,4 +1,4 @@
-﻿@model ApplicationUser
+﻿@model StudentManagementSystem.Models.Viewmodel.StudentVM
 @{
     ViewData["Title"] = "Update Student information";
 }
@@ -11,41 +11,47 @@
                     <div>
                         <h2 class="text-uppercase my-3 mb-5">Create Class</h2>
                         <form method="post" enctype="multipart/form-data">
+                            <input asp-for="applicationUser.Id" />
                             <h3 class="text-start">Personal Details</h3>
 
                             <div class="card-body border-2 border-white ">
                                 <div class="form-outline form-floating text-primary mb-3">
-                                    <input asp-for="Student_Name" type="text" class="form-control rounded-2" placeholder="Full Name" />
-                                    <label asp-for="Student_Name" class="form-label">Full Name</label>
-                                    <span asp-validation-for="Student_Name" class="text-danger"></span>
+                                    <input asp-for="applicationUser.Student_Name" type="text" class="form-control rounded-2" placeholder="Full Name" />
+                                    <label asp-for="applicationUser.Student_Name" class="form-label">Full Name</label>
+                                    <span asp-validation-for="applicationUser.Student_Name" class="text-danger"></span>
                                 </div>
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="Student_Email" id="email1" type="email" class="form-control" placeholder="Email" />
-                                    <label asp-for="Student_Email" class="form-label">Email</label>
-                                    <span asp-validation-for="Student_Email" class="text-danger"></span>
-                                </div>
-                                <div>
-                                    class
+                                    <input asp-for="applicationUser.Student_Email" id="email1" type="email" class="form-control" placeholder="Email" />
+                                    <label asp-for="applicationUser.Student_Email" class="form-label">Email</label>
+                                    <span asp-validation-for="applicationUser.Student_Email" class="text-danger"></span>
                                 </div>
                                 <div class=" form-floating text-primary mb-3">
 
-                                    <select asp-for="Gender" class="form-control" placeholder="Gender">
+                                    <select asp-for="applicationUser.StudentClassId" class="form-control" asp-items="@Model.classList" placeholder="Class">
+                                        <option selected disabled>---Select Class---</option>>
+                                    </select>
+                                    <label asp-for="applicationUser.StudentClassId" class="form-label">Class</label>
+                                    <span asp-validation-for="applicationUser.StudentClassId" class="text-danger"></span>
+                                </div>
+                                <div class=" form-floating text-primary mb-3">
+
+                                    <select asp-for="applicationUser.Gender" class="form-control" placeholder="Gender">
                                         <option selected disabled>---Select Gender---</option>>
                                         <option>Male</option>>
                                         <option>Female</option>>
                                     </select>
-                                    <label asp-for="Gender" class="form-label">Gender</label>
-                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                    <label asp-for="applicationUser.Gender" class="form-label">Gender</label>
+                                    <span asp-validation-for="applicationUser.Gender" class="text-danger"></span>
                                 </div>
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="Students_Id" type="text" class="form-control" placeholder="Student ID" />
-                                    <label asp-for="Students_Id" class="form-label">Student ID</label>
-                                    <span asp-validation-for="Students_Id" class="text-danger"></span>
+                                    <input asp-for="applicationUser.Students_Id" type="text" class="form-control" placeholder="Student ID" />
+                                    <label asp-for="applicationUser.Students_Id" class="form-label">Student ID</label>
+                                    <span asp-validation-for="applicationUser.Students_Id" class="text-danger"></span>
                                 </div>
                                 <div class=" form-floating text-primary mb-3">
-                                    <input name="file" asp-for="ImgUrl" type="file" class="form-control" placeholder="Image" />
-                                    <label asp-for="ImgUrl" class="form-label">Image</label>
-                                    <span asp-validation-for="ImgUrl" class="text-danger"></span>
+                                    <input name="file" asp-for="applicationUser.ImgUrl" type="file" class="form-control" placeholder="Image" />
+                                    <label asp-for="applicationUser.ImgUrl" class="form-label">Image</label>
+                                    <span asp-validation-for="applicationUser.ImgUrl" class="text-danger"></span>
                                 </div>
 
                             </div>
@@ -56,27 +62,27 @@
                             <div class="card-body border-2 border-white ">
 
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="FathersName" type="text" class="form-control" placeholder="Father's Name" />
-                                    <label asp-for="FathersName" class="form-label">Father's Name</label>
-                                    <span asp-validation-for="FathersName" class="text-danger"></span>
+                                    <input asp-for="applicationUser.FathersName" type="text" class="form-control" placeholder="Father's Name" />
+                                    <label asp-for="applicationUser.FathersName" class="form-label">Father's Name</label>
+                                    <span asp-validation-for="applicationUser.FathersName" class="text-danger"></span>
                                 </div>
 
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="MothersName" type="text" class="form-control" placeholder="Mother's Name" />
-                                    <label asp-for="MothersName" class="form-label">Mother's Name</label>
-                                    <span asp-validation-for="MothersName" class="text-danger"></span>
+                                    <input asp-for="applicationUser.MothersName" type="text" class="form-control" placeholder="Mother's Name" />
+                                    <label asp-for="applicationUser.MothersName" class="form-label">Mother's Name</label>
+                                    <span asp-validation-for="applicationUser.MothersName" class="text-danger"></span>
                                 </div>
 
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="Phone" type="text" class="form-control" placeholder="Contact Number" />
-                                    <label asp-for="Phone" class="form-label">Contact Number</label>
-                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                    <input asp-for="applicationUser.Phone" type="text" class="form-control" placeholder="Contact Number" />
+                                    <label asp-for="applicationUser.Phone" class="form-label">Contact Number</label>
+                                    <span asp-validation-for="applicationUser.Phone" class="text-danger"></span>
                                 </div>
 
                                 <div class=" form-floating text-primary mb-3">
-                                    <input asp-for="GuardianAddress" type="text" class="form-control" placeholder="Address" />
-                                    <label asp-for="GuardianAddress" class="form-label">Address</label>
-                                    <span asp-validation-for="GuardianAddress" class="text-danger"></span>
+                                    <input asp-for="applicationUser.GuardianAddress" type="text" class="form-control" placeholder="Address" />
+                                    <label asp-for="applicationUser.GuardianAddress" class="form-label">Address</label>
+                                    <span asp-validation-for="applicationUser.GuardianAddress" class="text-danger"></span>
                                 </div>
                             </div>
 

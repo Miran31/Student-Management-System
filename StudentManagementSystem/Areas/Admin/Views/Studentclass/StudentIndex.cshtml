@@ -8,7 +8,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-6">
-                    <h3>Class List</h3>
+                    <h3>Students List</h3>
                 </div>
                 <div class="col-6 text-end">
                     <a class="btn btn-outline-primary rounded-4" asp-action="StudentCreate" asp-area="Admin" asp-controller="Studentclass"><i class="fa-solid fa-circle-plus"></i> Create New Student</a>
@@ -31,7 +31,7 @@
                     <tr>
                         <td>@i.Students_Id</td>
                         <td>@i.Student_Name</td>
-                        <td></td>
+                        <td>@i.ClassName</td>
                         <td>@i.FathersName</td>
                         <td>@i.Phone</td>
                         <td>@i.GuardianAddress</td>

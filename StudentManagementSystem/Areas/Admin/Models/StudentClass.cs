@@ -6,9 +6,6 @@ namespace StudentManagementSystem.Areas.Admin.Models
     {
         [Key] public int StudentClassId { get; set; }
         [Required]
-        [MaxLength(10)]
-        public string Session {  get; set; }
-        [Required]
         [Range(1,10)]
         public int Year { get; set; }
         [Required]

@@ -24,8 +24,13 @@
                                     <label asp-for="Student_Email" class="form-label">Email</label>
                                     <span asp-validation-for="Student_Email" class="text-danger"></span>
                                 </div>
-                                <div>
-                                    class
+                                <div class=" form-floating text-primary mb-3">
+
+                                    <select asp-for="StudentClassId" class="form-control" asp-items="ViewBag.Studentcls" placeholder="Class">
+                                        <option selected disabled>---Select Class---</option>>
+                                    </select>
+                                    <label asp-for="StudentClassId" class="form-label">Class</label>
+                                    <span asp-validation-for="StudentClassId" class="text-danger"></span>
                                 </div>
                                 <div class=" form-floating text-primary mb-3">
                                     

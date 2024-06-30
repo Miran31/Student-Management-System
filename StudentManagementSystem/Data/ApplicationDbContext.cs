@@ -13,5 +13,15 @@ namespace StudentManagementSystem.Data
         }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
         public DbSet<StudentClass> studentClasses { get; set; }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    // Configure the relationship between ApplicationUser and StudentClass
+        //    modelBuilder.Entity<ApplicationUser>()
+        //        .HasOne(au => au.StudentClass)
+        //        .WithMany()
+        //        .HasForeignKey(au => au.StudentClassId);
+        //}
     }
 }

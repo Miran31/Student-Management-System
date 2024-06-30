@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using StudentManagementSystem.Areas.Admin.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,5 +29,11 @@ namespace StudentManagementSystem.Models
         public string? GuardianAddress { get; set; }
         public string? LoginEmail { get; set; }
         public string? LoginPassword { get; set; }
+
+        public int StudentClassId { get; set; }
+        [ForeignKey("StudentClassId")]
+        [ValidateNever]
+        public StudentClass StudentClass { get; set; }
+        public string ClassName => StudentClass != null ? $"{StudentClass.Year} - {StudentClass.Semester}" : "N/A";
     }
 }
