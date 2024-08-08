@@ -1,1 +1,58 @@
-﻿this is admin index
+﻿@model StudentManagementSystem.Models.Viewmodel.AdminVM
+
+
+<div>
+    <div class="my-5">
+        <h2>Admin Dashboard</h2>
+    </div>
+    <div class="m-3">
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-secondary m-3">
+                    <div class="card-body text-center">
+                        <h3>Total classes</h3>
+                        <p>@Model.ClassCount</p>
+                        <a asp-action="Index" asp-controller="Studentclass" asp-area="Admin" class="btn btn-primary">View Classes</a>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card bg-success m-3">
+                    <div class="card-body text-center">
+                        <h3>Total classes</h3>
+                        <p>@Model.StudentCount</p>
+                        <a asp-action="StudentIndex" asp-controller="Studentclass" asp-area="Admin" class="btn btn-primary">View Students</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-danger m-3">
+                    <div class="card-body text-center">
+                        <h3>Total classes</h3>
+                        <p>@Model.ClassCount</p>
+                        <a href="#">viwe classes</a>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card bg-dark m-3">
+                    <div class="card-body text-center">
+                        <h3>Total classes</h3>
+                        <p>@Model.ClassCount</p>
+                        <a href="#">viwe classes</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

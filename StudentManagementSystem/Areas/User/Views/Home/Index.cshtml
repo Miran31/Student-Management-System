@@ -1,8 +1,297 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
+@using StudentManagementSystem.Utility
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StudentManagementSystem</title>
+    @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> *@
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/StudentManagementSystem.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<div class="container">
-    sd
-</div>
+    <style>
+        body,html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            scroll-behavior: smooth;
+        }
+
+        .homesec {
+            height: 90vh;
+        }
+
+        .aboutsec {
+            height: 45vh;
+        }
+
+        .contactsec {
+            height: 68vh;
+        }
+
+        .divmain {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+            .divmain::before {
+                content: '';
+                position: absolute;
+                background-image: url('~/wwwroot/Images/Overall/Home.png');
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-size: cover;
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                opacity: 0.3;
+                z-index: -1;
+            }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+
+    </style>
+
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-md navbar-toggleable-md bg-primary border-bottom box-shadow" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SMS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
+                    <div class="inline-flex justify-content-center">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            @if (!User.IsInRole(SD.Role_admin) && !User.IsInRole(SD.Role_student))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Contract</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(SD.Role_admin))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Studentclass" asp-action="Index">Class</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Studentclass" asp-action="StudentIndex">Student</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(SD.Role_student))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Student</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Student</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Student</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Privacy">Student</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section id="home">
+        <div class="homesec divmain d-flex justify-content-center align-items-center" style="margin:0; padding: 0">
+            <div class="container text-center">
+                <h1>Student Management System</h1>
+                <p>Registered Student Can Login Here</p>
+                <a class="btn btn-primary rounded-3" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <div class="aboutsec divmain">
+            <div class="container">
+                <h1 class="text-center">About Us</h1>
+                <p style="text-align: justify;">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem deleniti eos vero
+                    laudantium vitae autem quos vel quaerat. Illo sit quos amet, porro ipsam magni aliquam nostrum
+                    provident possimus! Tempora distinctio laudantium nisi placeat illo delectus sapiente animi, veniam
+                    accusantium quisquam molestias saepe omnis magni cum nulla perspiciatis dignissimos suscipit rerum
+                    neque quod? Voluptate repellendus corporis ab corrupti. Ipsa modi placeat sed voluptate distinctio
+                    voluptatibus quae fugiat, neque nesciunt id? Sequi rerum suscipit doloribus dicta molestiae vero
+                    repellendus labore, aperiam quas repudiandae officiis porro error sint animi, odio modi, libero
+                    eveniet laborum eaque exercitationem. Eligendi dolorem deserunt esse commodi sunt repellendus labore
+                    neque alias minus cum. Earum natus possimus dolorem minima animi nobis ex optio nisi officiis,
+                    dolore molestiae sint, ut, sunt ea expedita? Doloribus adipisci amet quia neque error? Nemo delectus
+                    repudiandae aliquid saepe aliquam enim nam ducimus qui error voluptatibus provident iste numquam
+                    adipisci, natus obcaecati est rem? Alias delectus sint placeat asperiores ipsum enim, quisquam ea
+                    rerum commodi non deleniti magni eius dolor amet provident nulla ratione nobis veniam maxime. Harum,
+                    ducimus! Est quos, hic fugiat nihil dicta reiciendis accusamus exercitationem ut. Reiciendis facilis
+                    ratione qui blanditiis aspernatur necessitatibus recusandae error, accusamus iure deserunt,
+                    architecto, cum debitis?
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="notice">
+        <div class="contactsec divmain">
+            <div class="container" style="margin-top: 10vh;">
+                <h1 class="text-center">Public Notice</h1>
+                <table class="table table-striped table-bordered table-primary">
+                    <thead class="text-center">
+                    <th>Title</th>
+                    <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td class="text-center">hello</td>
+                        </tr>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td class="text-center">
+                                <a href="#about" class="btn btn-success">this is miran</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td>hello</td>
+                        </tr>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td>hello</td>
+                        </tr>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td>hello</td>
+                        </tr>
+                        <tr>
+                            <td class="w-75">hello</td>
+                            <td>hello</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <footer class="text-center text-lg-start text-white" style="background-color: #1c2331">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-between p-4" style="background-color: #6351ce">
+            <!-- Left -->
+            <div class="me-5">
+                <span>Get connected with us on social networks:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="text-white me-4">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold">SMS</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum maxime itaque aliquid tempora excepturi amet aut dolore iste aperiam dolores?
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold">Useful links</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p>
+                            <a href="#home" style="text-decoration: none;" class="text-white">Home</a>
+                        </p>
+                        <p>
+                            <a href="#about" style="text-decoration: none;" class="text-white">About</a>
+                        </p>
+                        <p>
+                            <a href="#notice" style="text-decoration: none;" class="text-white">Public Notice</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold">Contact</h6>
+                        <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                            style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p><i class="fas fa-home mr-3"></i> Dhaka, Bangladesh </p>
+                        <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+                        <p><i class="fas fa-phone mr-3"></i> +880 1712-345678</p>
+
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+        </section>
+        <!-- Section: Links  -->
+
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+</body>
+</html>
